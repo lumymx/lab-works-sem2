@@ -1,1 +1,0 @@
-/usr/bin/g++ -DQT_QML_DEBUG -g CMakeFiles/calculator.dir/calculator_autogen/mocs_compilation.cpp.o CMakeFiles/calculator.dir/main.cpp.o CMakeFiles/calculator.dir/calculator.cpp.o CMakeFiles/calculator.dir/operations.cpp.o -o calculator  /usr/lib/libQt6Widgets.so.6.4.2 /usr/lib/libQt6Gui.so.6.4.2 /usr/lib/libQt6Core.so.6.4.2 /usr/lib/libGLX.so /usr/lib/libOpenGL.so 

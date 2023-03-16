@@ -30,9 +30,10 @@ private slots:
 
 private:
     Ui::Calculator *ui;
-    double operand1;
-    double operand2;
+    double operand1 = 0;
+    double operand2 = 0;
     double memory = 0;
+    int maxLength = 15;
     enum Operation {
         NONE,
         ADD,

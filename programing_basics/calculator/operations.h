@@ -9,5 +9,6 @@ QString multiply(double operand1, double operand2);
 QString divide(double operand1, double operand2);
 QString percent(double operand1, double operand2);
 QString power(double operand1, double operand2);
+QString function(QString functionName, double operand);
 
 #endif // OPERATIONS_H

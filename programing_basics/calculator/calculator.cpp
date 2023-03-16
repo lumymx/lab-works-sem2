@@ -44,8 +44,7 @@ Calculator::Calculator(QWidget *parent)
     connect(ui->BtnPoint, SIGNAL(clicked()), this, SLOT(pointClicked()));
     connect(ui->BtnEquals, SIGNAL(clicked()), this, SLOT(equalsClicked()));
 
-    ui->EditInput->setMaxLength(15);
-    // ui->BrowserResult->setMaximumBlockCount(15);
+    ui->EditInput->setMaxLength(maxLength);
     ui->EditInput->setText("0");
     ui->BrowserResult->setText("0");
 }
@@ -63,45 +62,29 @@ void Calculator::numberClicked()
     if (!(inputValue == "0" && digitValue == "0.0")) {
         if (inputValue == "0")
             inputValue = "";
-        ui->EditInput->setText(inputValue + digitValue);
+        if(ui->EditInput->text().length() <= maxLength)
+            ui->EditInput->setText(inputValue + digitValue);
     }
-    operand1 = ui->EditInput->text().toDouble();
 }
 
 void Calculator::operatorClicked()
 {
     QPushButton* button = (QPushButton*)sender();
     QString buttonText = button->text();
-    if (buttonText == "+") {
-        operand1 = ui->EditInput->text().toDouble();
+    operand1 = ui->EditInput->text().toDouble();
+    if (buttonText == "+")
         operation = ADD;
-        ui->EditInput->setText("");
-    }
-    else if (buttonText == "-") {
-        operand1 = ui->EditInput->text().toDouble();
+    else if (buttonText == "-")
         operation = SUBTRACT;
-        ui->EditInput->setText("");
-    }
-    else if (buttonText == "×") {
-        operand1 = ui->EditInput->text().toDouble();
+    else if (buttonText == "×")
         operation = MULTIPLY;
-        ui->EditInput->setText("");
-    }
-    else if (buttonText == "÷") {
-        operand1 = ui->EditInput->text().toDouble();
+    else if (buttonText == "÷")
         operation = DIVIDE;
-        ui->EditInput->setText("");
-    }
-    else if (buttonText == "%") {
-        operand1 = ui->EditInput->text().toDouble();
+    else if (buttonText == "%")
         operation = PERCENT;
-        ui->EditInput->setText("");
-    }
-    else if (buttonText == "^") {
-        operand1 = ui->EditInput->text().toDouble();
+    else if (buttonText == "^")
         operation = POWER;
-        ui->EditInput->setText("");
-    }
+    ui->EditInput->setText("");
 }
 
 
@@ -109,25 +92,9 @@ void Calculator::functionClicked()
 {
     QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
     QString functionName = clickedButton->text();
-    double inputValue = operand1;
-    double result = 0.0;
-    if (functionName == "SIN") {
-        result = sin(inputValue);
-    } else if (functionName == "COS") {
-        result = cos(inputValue);
-    } else if (functionName == "TAN") {
-        result = tan(inputValue);
-    } else if (functionName == "COT") {
-        result = 1.0 / tan(inputValue);
-    } else if (functionName == "√") {
-        if(inputValue < 0.0) {
-            ui->BrowserResult->setText("Error");
-            return;
-        }
-        else
-            result = sqrt(inputValue);
-    }
-    ui->BrowserResult->setText(QString::number(result));
+    double inputValue = ui->EditInput->text().toDouble();
+    QString result = function(functionName, inputValue);
+    ui->BrowserResult->setText(result);
     ui->EditInput->setText("0");
     operand1 = 0;
 }
@@ -136,15 +103,14 @@ void Calculator::memoryClicked()
 {
     QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
     QString buttonText = clickedButton->text();
-    if (buttonText == "MR") {
+    if (buttonText == "MR")
         ui->EditInput->setText(QString::number(memory));
-    } else if (buttonText == "MC") {
+    else if (buttonText == "MC")
         memory = 0;
-    } else if (buttonText == "M+") {
+    else if (buttonText == "M+")
         memory += ui->EditInput->text().toDouble();
-    } else if (buttonText == "M-") {
+    else if (buttonText == "M-")
         memory -= ui->EditInput->text().toDouble();
-    }
 }
 
 void Calculator::clearClicked()
@@ -167,8 +133,7 @@ void Calculator::deleteClicked()
 void Calculator::negateClicked()
 {
     double inputValue = ui->EditInput->text().toDouble();
-    inputValue *= -1;
-    ui->EditInput->setText(QString::number(inputValue));
+    ui->EditInput->setText(QString::number(inputValue * -1));
 }
 
 void Calculator::pointClicked()
@@ -206,13 +171,13 @@ void Calculator::equalsClicked()
         result = power(operand1, operand2);
         break;
     default:
-        !operand1 ? result = ui->BrowserResult->toPlainText() : result = QString::number(operand1);
         break;
     }
 
     ui->BrowserResult->setText(result);
     ui->EditInput->setText("0");
     operation = NONE;
-    operand1 = ui->EditInput->text().toDouble();
+    operand1 = 0;
+    operand2 = 0;
 }
 

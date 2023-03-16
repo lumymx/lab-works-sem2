@@ -35,3 +35,23 @@ QString power(double operand1, double operand2)
 {
     return QString::number(pow(operand1, operand2));
 }
+
+QString function(QString functionName, double operand)
+{
+    QString result;
+    if (functionName == "SIN")
+        result = QString::number(sin(operand));
+    else if (functionName == "COS")
+        result = QString::number(cos(operand));
+    else if (functionName == "TAN")
+        result = QString::number(tan(operand));
+    else if (functionName == "COT")
+        result = QString::number(1.0 / (operand));
+    else if (functionName == "√") {
+        if(operand < 0.0)
+            result = "Error";
+        else
+            result = result = QString::number(sqrt(operand));
+    }
+    return result;
+}
