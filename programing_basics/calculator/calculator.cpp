@@ -69,14 +69,14 @@ void Calculator::numberClicked()
 
 void Calculator::operatorClicked()
 {
-    if (operation == NONE)
+    if (operation != NONE)
     {
         operand2 = ui->EditInput->text().toDouble();
         commitOperation();
     }
+    operand1 = ui->EditInput->text().toDouble();
     QPushButton* button = (QPushButton*)sender();
     QString buttonText = button->text();
-    operand1 = ui->EditInput->text().toDouble();
     if (buttonText == "+")
         operation = ADD;
     else if (buttonText == "-")
@@ -154,17 +154,16 @@ void Calculator::pointClicked()
 
 void Calculator::equalsClicked()
 {
-    ui->EditInput->setText(ui->BrowserResult->toPlainText());
     operand2 = ui->EditInput->text().toDouble();
+    ui->EditInput->setText(ui->BrowserResult->toPlainText());
     commitOperation();
     operation = NONE;
-    operand1 = 0;
     operand2 = 0;
 }
 
 void Calculator::commitOperation()
 {
-    QString result = "0";
+    QString result = ui->BrowserResult->toPlainText();
     switch (operation) {
     case ADD:
         result = add(operand1, operand2);
@@ -188,4 +187,5 @@ void Calculator::commitOperation()
         break;
     }
     ui->BrowserResult->setText(result);
+    operand1 = result.toDouble();
 }
