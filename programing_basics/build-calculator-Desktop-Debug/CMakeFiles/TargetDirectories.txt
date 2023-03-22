@@ -1,8 +1,0 @@
-/home/lumy/Документы/lab-works-sem2/programing_basics/build-calculator-Desktop-Debug/CMakeFiles/calculator.dir
-/home/lumy/Документы/lab-works-sem2/programing_basics/build-calculator-Desktop-Debug/CMakeFiles/edit_cache.dir
-/home/lumy/Документы/lab-works-sem2/programing_basics/build-calculator-Desktop-Debug/CMakeFiles/rebuild_cache.dir
-/home/lumy/Документы/lab-works-sem2/programing_basics/build-calculator-Desktop-Debug/CMakeFiles/list_install_components.dir
-/home/lumy/Документы/lab-works-sem2/programing_basics/build-calculator-Desktop-Debug/CMakeFiles/install.dir
-/home/lumy/Документы/lab-works-sem2/programing_basics/build-calculator-Desktop-Debug/CMakeFiles/install/local.dir
-/home/lumy/Документы/lab-works-sem2/programing_basics/build-calculator-Desktop-Debug/CMakeFiles/install/strip.dir
-/home/lumy/Документы/lab-works-sem2/programing_basics/build-calculator-Desktop-Debug/CMakeFiles/calculator_autogen.dir
