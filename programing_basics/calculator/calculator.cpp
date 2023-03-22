@@ -69,6 +69,11 @@ void Calculator::numberClicked()
 
 void Calculator::operatorClicked()
 {
+    if (operation == NONE)
+    {
+        operand2 = ui->EditInput->text().toDouble();
+        commitOperation();
+    }
     QPushButton* button = (QPushButton*)sender();
     QString buttonText = button->text();
     operand1 = ui->EditInput->text().toDouble();
@@ -149,8 +154,17 @@ void Calculator::pointClicked()
 
 void Calculator::equalsClicked()
 {
+    ui->EditInput->setText(ui->BrowserResult->toPlainText());
     operand2 = ui->EditInput->text().toDouble();
-    QString result;
+    commitOperation();
+    operation = NONE;
+    operand1 = 0;
+    operand2 = 0;
+}
+
+void Calculator::commitOperation()
+{
+    QString result = "0";
     switch (operation) {
     case ADD:
         result = add(operand1, operand2);
@@ -173,11 +187,5 @@ void Calculator::equalsClicked()
     default:
         break;
     }
-
     ui->BrowserResult->setText(result);
-    ui->EditInput->setText("0");
-    operation = NONE;
-    operand1 = 0;
-    operand2 = 0;
 }
-

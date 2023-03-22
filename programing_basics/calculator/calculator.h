@@ -29,6 +29,7 @@ private slots:
     void equalsClicked();
 
 private:
+    void commitOperation();
     Ui::Calculator *ui;
     double operand1 = 0;
     double operand2 = 0;
