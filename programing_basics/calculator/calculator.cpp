@@ -44,7 +44,6 @@ Calculator::Calculator(QWidget *parent)
     connect(ui->BtnPoint, SIGNAL(clicked()), this, SLOT(pointClicked()));
     connect(ui->BtnEquals, SIGNAL(clicked()), this, SLOT(equalsClicked()));
 
-    ui->EditInput->setMaxLength(maxLength);
     ui->EditInput->setText("0");
     ui->BrowserResult->setText("0");
     ui->EditInput->setFocusPolicy(Qt::TabFocus);
@@ -116,7 +115,7 @@ void Calculator::memoryClicked()
     QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
     QString buttonText = clickedButton->text();
     if (buttonText == "MR")
-        ui->EditInput->setText(QString::number(memory));
+        ui->EditInput->setText(QString::number(memory, 'g', maxLength));
     else if (buttonText == "MC")
         memory = 0;
     else if (buttonText == "M+")
@@ -146,7 +145,7 @@ void Calculator::deleteClicked()
 void Calculator::negateClicked()
 {
     double inputValue = ui->EditInput->text().toDouble();
-    ui->EditInput->setText(QString::number(inputValue * -1));
+    ui->EditInput->setText(QString::number(inputValue * -1, 'g', maxLength));
 }
 
 void Calculator::pointClicked()
