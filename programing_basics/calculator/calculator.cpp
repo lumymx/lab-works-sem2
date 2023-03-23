@@ -47,6 +47,7 @@ Calculator::Calculator(QWidget *parent)
     ui->EditInput->setMaxLength(maxLength);
     ui->EditInput->setText("0");
     ui->BrowserResult->setText("0");
+    ui->EditInput->setFocusPolicy(Qt::TabFocus);
 }
 
 Calculator::~Calculator()
@@ -56,14 +57,16 @@ Calculator::~Calculator()
 
 void Calculator::numberClicked()
 {
-    QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
-    QString digitValue = clickedButton->text();
-    QString inputValue = ui->EditInput->text();
-    if (!(inputValue == "0" && digitValue == "0.0")) {
-        if (inputValue == "0")
-            inputValue = "";
-        if(ui->EditInput->text().length() <= maxLength)
-            ui->EditInput->setText(inputValue + digitValue);
+    if (ui->BrowserResult->toPlainText() != "Error" && !ui->EditInput->text().contains("e")){
+        QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
+        QString digitValue = clickedButton->text();
+        QString inputValue = ui->EditInput->text();
+        if (!(inputValue == "0" && digitValue == "0.0")) {
+            if (inputValue == "0")
+                inputValue = "";
+            if(ui->EditInput->text().length() <= maxLength)
+                ui->EditInput->setText(inputValue + digitValue);
+        }
     }
 }
 
@@ -147,7 +150,7 @@ void Calculator::negateClicked()
 void Calculator::pointClicked()
 {
     QString text = ui->EditInput->text();
-    if (!text.contains('.'))
+    if (!text.contains('.') && text != "-")
     {
         text.append('.');
         ui->EditInput->setText(text);
@@ -159,36 +162,40 @@ void Calculator::equalsClicked()
 {
     operand2 = ui->EditInput->text().toDouble();
     commitOperation();
-    ui->EditInput->setText(ui->BrowserResult->toPlainText());
+    if (ui->BrowserResult->toPlainText() != "Error")
+        ui->EditInput->setText(ui->BrowserResult->toPlainText());
     operation = NONE;
     operand2 = 0;
 }
 
 void Calculator::commitOperation()
 {
-    QString result = ui->BrowserResult->toPlainText();
-    switch (operation) {
-    case ADD:
-        result = add(operand1, operand2);
-        break;
-    case SUBTRACT:
-        result = subtract(operand1, operand2);
-        break;
-    case MULTIPLY:
-        result = multiply(operand1, operand2);
-        break;
-    case DIVIDE:
-        result = divide(operand1, operand2);
-        break;
-    case PERCENT:
-        result = percent(operand1, operand2);
-        break;
-    case POWER:
-        result = power(operand1, operand2);
-        break;
-    default:
-        break;
+    if (ui->BrowserResult->toPlainText() != "Error")
+    {
+        QString result = ui->BrowserResult->toPlainText();
+        switch (operation) {
+        case ADD:
+            result = add(operand1, operand2);
+            break;
+        case SUBTRACT:
+            result = subtract(operand1, operand2);
+            break;
+        case MULTIPLY:
+            result = multiply(operand1, operand2);
+            break;
+        case DIVIDE:
+            result = divide(operand1, operand2);
+            break;
+        case PERCENT:
+            result = percent(operand1, operand2);
+            break;
+        case POWER:
+            result = power(operand1, operand2);
+            break;
+        default:
+            break;
+        }
+        ui->BrowserResult->setText(result);
+        operand1 = result.toDouble();
     }
-    ui->BrowserResult->setText(result);
-    operand1 = result.toDouble();
 }

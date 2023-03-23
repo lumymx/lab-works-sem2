@@ -34,7 +34,7 @@ private:
     double operand1 = 0;
     double operand2 = 0;
     double memory = 0;
-    int maxLength = 15;
+    int maxLength = 20;
     enum Operation {
         NONE,
         ADD,
