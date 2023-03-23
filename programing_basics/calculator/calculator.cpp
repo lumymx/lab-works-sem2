@@ -57,7 +57,8 @@ Calculator::~Calculator()
 
 void Calculator::numberClicked()
 {
-    if (ui->BrowserResult->toPlainText() != "Error" && !ui->EditInput->text().contains("e")){
+    if (ui->BrowserResult->toPlainText() != "Error" && !ui->EditInput->text().contains("e"))
+    {
         QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
         QString digitValue = clickedButton->text();
         QString inputValue = ui->EditInput->text();
@@ -128,6 +129,7 @@ void Calculator::clearClicked()
 {
     ui->EditInput->setText("0");
     ui->BrowserResult->setText("0");
+    ui->BtnClear->setStyleSheet("../../stylesheets/Combinear.qss");
 }
 
 void Calculator::deleteClicked()
@@ -197,5 +199,7 @@ void Calculator::commitOperation()
         }
         ui->BrowserResult->setText(result);
         operand1 = result.toDouble();
+        if (result == "Error")
+            ui->BtnClear->setStyleSheet("background-color: red;");
     }
 }
