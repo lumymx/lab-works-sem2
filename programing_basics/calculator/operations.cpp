@@ -1,57 +1,79 @@
 #include "./operations.h"
+#include "./utility.h"
 #include <cmath>
+#include <string>
 
-QString add(double operand1, double operand2)
+std::string calculateOperationResult(double operand1, double operand2, std::string operation, int limit)
 {
-    return QString::number(operand1 + operand2, 'g', 20);
-}
-
-QString subtract(double operand1, double operand2)
-{
-    return QString::number(operand1 - operand2, 'g', 20);
-}
-
-QString multiply(double operand1, double operand2)
-{
-    return QString::number(operand1 * operand2, 'g', 20);
-}
-
-QString divide(double operand1, double operand2)
-{
-    QString result;
-    if (operand2 == 0)
+    std::string result;
+    if(checkErrors(operand1, operand2, operation))
         result = "Error";
-    else
-        result = QString::number(operand1 / operand2, 'g', 20);
+    else {
+        double doubleResult;
+        if(operation == "add")
+            doubleResult = add(operand1, operand2);
+        else if(operation == "sub")
+            doubleResult = subtract(operand1, operand2);
+        else if(operation == "mult")
+            doubleResult = multiply(operand1, operand2);
+        else if(operation == "div")
+            doubleResult = divide(operand1, operand2);
+        else if(operation == "percent")
+            doubleResult = percent(operand1, operand2);
+        else if(operation == "pow")
+            doubleResult = pow(operand1, operand2);
+        else
+            doubleResult = function(operand1, operation);
+        result = doubleToString(doubleResult, limit);
+    }
     return result;
 }
 
-QString percent(double operand1, double operand2)
+bool checkErrors(double operand1, double operand2, std::string operation)
 {
-    return QString::number(operand1 / 100 * operand2, 'g', 20);
+    bool result = false;
+    if ((operation == "sqrt" && operand1 < 0) || (operation == "div" && operand2 == 0))
+        result = true;
+    return result;
 }
 
-QString power(double operand1, double operand2)
+double add(double operand1, double operand2)
 {
-    return QString::number(pow(operand1, operand2), 'g', 20);
+    return operand1 + operand2;
 }
 
-QString function(QString functionName, double operand)
+double subtract(double operand1, double operand2)
 {
-    QString result;
-    if (functionName == "SIN")
-        result = QString::number(sin(operand), 'g', 20);
-    else if (functionName == "COS")
-        result = QString::number(cos(operand), 'g', 20);
-    else if (functionName == "TAN")
-        result = QString::number(tan(operand), 'g', 20);
-    else if (functionName == "COT")
-        result = QString::number(1.0 / (operand), 'g', 20);
-    else if (functionName == "√") {
-        if(operand < 0.0)
-            result = "Error";
-        else
-            result = result = QString::number(sqrt(operand), 'g', 20);
-    }
+    return operand1 - operand2;
+}
+
+double multiply(double operand1, double operand2)
+{
+    return operand1 * operand2;
+}
+
+double divide(double operand1, double operand2)
+{
+    return operand1 / operand2;
+}
+
+double percent(double operand1, double operand2)
+{
+    return operand1 / 100 * operand2;
+}
+
+double function(double operand, std::string functionName)
+{
+    double result = operand;
+    if (functionName == "sin")
+        result = sin(operand);
+    else if (functionName == "cos")
+        result = cos(operand);
+    else if (functionName == "tan")
+        result = tan(operand);
+    else if (functionName == "cot")
+        result = 1.0 / operand;
+    else if (functionName == "sqrt")
+        result = sqrt(operand);
     return result;
 }

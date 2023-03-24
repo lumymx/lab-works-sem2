@@ -1,14 +1,17 @@
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
 
-#include <QString>
+#include <string>
 
-QString add(double operand1, double operand2);
-QString subtract(double operand1, double operand2);
-QString multiply(double operand1, double operand2);
-QString divide(double operand1, double operand2);
-QString percent(double operand1, double operand2);
-QString power(double operand1, double operand2);
-QString function(QString functionName, double operand);
+std::string calculateOperationResult(double operand1, double operand2, std::string operation, int limit);
+bool checkErrors(double operand1, double operand2, std::string operation);
+
+double add(double operand1, double operand2);
+double subtract(double operand1, double operand2);
+double multiply(double operand1, double operand2);
+double divide(double operand1, double operand2);
+double percent(double operand1, double operand2);
+double power(double operand1, double operand2);
+double function(double operand, std::string functionName);
 
 #endif // OPERATIONS_H

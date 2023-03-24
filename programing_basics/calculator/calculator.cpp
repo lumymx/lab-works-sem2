@@ -1,6 +1,7 @@
 #include "calculator.h"
 #include "./ui_calculator.h"
 #include "./operations.h"
+#include "./utility.h"
 #include <cmath>
 
 Calculator::Calculator(QWidget *parent)
@@ -56,8 +57,7 @@ Calculator::~Calculator()
 
 void Calculator::numberClicked()
 {
-    if (ui->BrowserResult->toPlainText() != "Error" && !ui->EditInput->text().contains("e"))
-    {
+    if (ui->BrowserResult->toPlainText() != "Error" && !ui->EditInput->text().contains("e")) {
         QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
         QString digitValue = clickedButton->text();
         QString inputValue = ui->EditInput->text();
@@ -72,8 +72,7 @@ void Calculator::numberClicked()
 
 void Calculator::operatorClicked()
 {
-    if (operation != NONE)
-    {
+    if (operation != NONE) {
         operand2 = ui->EditInput->text().toDouble();
         commitOperation();
     }
@@ -102,9 +101,9 @@ void Calculator::operatorClicked()
 void Calculator::functionClicked()
 {
     QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
-    QString functionName = clickedButton->text();
+    std::string functionName = labelToFunction(clickedButton->text().toStdString());
     double inputValue = ui->EditInput->text().toDouble();
-    QString result = function(functionName, inputValue);
+    QString result = QString::fromStdString(calculateOperationResult(inputValue, 0, functionName, maxLength));
     ui->BrowserResult->setText(result);
     ui->EditInput->setText(ui->BrowserResult->toPlainText());
     operand1 = 0;
@@ -115,7 +114,7 @@ void Calculator::memoryClicked()
     QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
     QString buttonText = clickedButton->text();
     if (buttonText == "MR")
-        ui->EditInput->setText(QString::number(memory, 'g', maxLength));
+        ui->EditInput->setText(QString::number(memory));
     else if (buttonText == "MC")
         memory = 0;
     else if (buttonText == "M+")
@@ -134,7 +133,7 @@ void Calculator::clearClicked()
 void Calculator::deleteClicked()
 {
     QString text = ui->EditInput->text();
-    if (!text.isEmpty() && text != "0")
+    if (!text.isEmpty() && text != "0" && !text.contains("e"))
     {
         text.remove(text.length() - 1, 1);
         ui->EditInput->setText(text);
@@ -145,7 +144,7 @@ void Calculator::deleteClicked()
 void Calculator::negateClicked()
 {
     double inputValue = ui->EditInput->text().toDouble();
-    ui->EditInput->setText(QString::number(inputValue * -1, 'g', maxLength));
+    ui->EditInput->setText(QString::number(inputValue * -1));
 }
 
 void Calculator::pointClicked()
@@ -165,39 +164,40 @@ void Calculator::equalsClicked()
     commitOperation();
     if (ui->BrowserResult->toPlainText() != "Error")
         ui->EditInput->setText(ui->BrowserResult->toPlainText());
+    else
+        ui->EditInput->setText("");
     operation = NONE;
     operand2 = 0;
 }
 
 void Calculator::commitOperation()
 {
-    if (ui->BrowserResult->toPlainText() != "Error")
-    {
-        QString result = ui->BrowserResult->toPlainText();
+    if (ui->BrowserResult->toPlainText() != "Error") {
+        std::string result = ui->EditInput->text().toStdString();
         switch (operation) {
         case ADD:
-            result = add(operand1, operand2);
+            result = calculateOperationResult(operand1, operand2, "add", maxLength);
             break;
         case SUBTRACT:
-            result = subtract(operand1, operand2);
+            result = calculateOperationResult(operand1, operand2, "sub", maxLength);
             break;
         case MULTIPLY:
-            result = multiply(operand1, operand2);
+            result = calculateOperationResult(operand1, operand2, "mult", maxLength);
             break;
         case DIVIDE:
-            result = divide(operand1, operand2);
+            result = calculateOperationResult(operand1, operand2, "div", maxLength);
             break;
         case PERCENT:
-            result = percent(operand1, operand2);
+            result = calculateOperationResult(operand1, operand2, "percent", maxLength);
             break;
         case POWER:
-            result = power(operand1, operand2);
+            result = calculateOperationResult(operand1, operand2, "pow", maxLength);
             break;
         default:
             break;
         }
-        ui->BrowserResult->setText(result);
-        operand1 = result.toDouble();
+        ui->BrowserResult->setText(QString::fromStdString(result));
+        operand1 = QString::fromStdString(result).toDouble();
         if (result == "Error")
             ui->BtnClear->setStyleSheet("background-color: red;");
     }
