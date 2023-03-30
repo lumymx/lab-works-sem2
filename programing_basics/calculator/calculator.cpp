@@ -2,6 +2,7 @@
 #include "./ui_calculator.h"
 #include "./operations.h"
 #include "./utility.h"
+#include "qpushbutton.h"
 #include <cmath>
 
 Calculator::Calculator(QWidget *parent)
@@ -67,6 +68,7 @@ void Calculator::numberClicked()
             if(ui->EditInput->text().length() <= maxLength)
                 ui->EditInput->setText(inputValue + digitValue);
         }
+        unblockOperations();
     }
 }
 
@@ -95,6 +97,7 @@ void Calculator::operatorClicked()
     else if (buttonText == "^")
         operation = POWER;
     ui->EditInput->setText("");
+    blockOperations();
 }
 
 
@@ -201,4 +204,50 @@ void Calculator::commitOperation()
         if (result == "Error")
             ui->BtnClear->setStyleSheet("background-color: red;");
     }
+}
+
+void Calculator::blockOperations()
+{
+    blockButton(ui->BtnPlus);
+    blockButton(ui->BtnMinus);
+    blockButton(ui->BtnMult);
+    blockButton(ui->BtnDiv);
+    blockButton(ui->BtnPercent);
+    blockButton(ui->BtnPower);
+
+    blockButton(ui->BtnSin);
+    blockButton(ui->BtnCos);
+    blockButton(ui->BtnTan);
+    blockButton(ui->BtnCot);
+    blockButton(ui->BtnRoot);
+}
+
+void Calculator::unblockOperations()
+{
+    unblockButton(ui->BtnPlus);
+    unblockButton(ui->BtnMinus);
+    unblockButton(ui->BtnMult);
+    unblockButton(ui->BtnDiv);
+    unblockButton(ui->BtnPercent);
+    unblockButton(ui->BtnPower);
+
+    unblockButton(ui->BtnSin);
+    unblockButton(ui->BtnCos);
+    unblockButton(ui->BtnTan);
+    unblockButton(ui->BtnCot);
+    unblockButton(ui->BtnRoot);
+}
+
+void Calculator::blockButton(QPushButton* Button)
+{
+    Button->setStyleSheet("background-color: white;");
+    Button->setEnabled(false);
+    Button->setFocusPolicy(Qt::NoFocus);
+}
+
+void Calculator::unblockButton(QPushButton* Button)
+{
+    Button->setStyleSheet("../../stylesheets/Combinear.qss");
+    Button->setEnabled(true);
+    Button->setFocusPolicy(Qt::ClickFocus);
 }

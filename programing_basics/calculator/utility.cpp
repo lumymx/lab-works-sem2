@@ -11,7 +11,9 @@ std::string doubleToString(double number, int limit) {
     ss << std::fixed << number;
     std::string str = ss.str();
 
-    if (str.length() > limit) {
+    if (number == static_cast<int>(number)) {
+        str.erase(str.find('.'));
+    } else if (str.length() > limit) {
         std::string::size_type dot_pos = str.find('.');
         if (dot_pos == std::string::npos) {
             dot_pos = str.length();
