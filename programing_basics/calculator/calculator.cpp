@@ -1,8 +1,9 @@
 #include "calculator.h"
 #include "./ui_calculator.h"
 #include "./operations.h"
-#include "./utility.h"
-#include "qpushbutton.h"
+#include "./strings.h"
+#include "./qt_objects_operations.h"
+
 #include <cmath>
 
 Calculator::Calculator(QWidget *parent)
@@ -236,18 +237,4 @@ void Calculator::unblockOperations()
     unblockButton(ui->BtnTan);
     unblockButton(ui->BtnCot);
     unblockButton(ui->BtnRoot);
-}
-
-void Calculator::blockButton(QPushButton* Button)
-{
-    Button->setStyleSheet("background-color: white;");
-    Button->setEnabled(false);
-    Button->setFocusPolicy(Qt::NoFocus);
-}
-
-void Calculator::unblockButton(QPushButton* Button)
-{
-    Button->setStyleSheet("../../stylesheets/Combinear.qss");
-    Button->setEnabled(true);
-    Button->setFocusPolicy(Qt::ClickFocus);
 }

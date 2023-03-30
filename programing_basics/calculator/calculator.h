@@ -1,10 +1,7 @@
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
-#include "qpushbutton.h"
 #include <QMainWindow>
-#include <QLineEdit>
-#include <QTextBrowser>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Calculator; }
@@ -33,8 +30,6 @@ private:
     void commitOperation();
     void blockOperations();
     void unblockOperations();
-    void blockButton(QPushButton*);
-    void unblockButton(QPushButton*);
     Ui::Calculator *ui;
     double operand1 = 0;
     double operand2 = 0;

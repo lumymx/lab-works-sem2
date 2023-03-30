@@ -137,7 +137,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>15</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -213,7 +213,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -403,7 +403,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -422,7 +422,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -501,7 +501,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -520,7 +520,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>23</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -539,7 +539,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>15</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -558,7 +558,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>15</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -577,7 +577,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>15</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -596,7 +596,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>15</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -640,7 +640,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <bold>true</bold>
      </font>
     </property>

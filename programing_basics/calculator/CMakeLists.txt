@@ -22,8 +22,11 @@ set(PROJECT_SOURCES
         operations.h
         operations.cpp
 
-        utility.h
-        utility.cpp
+        strings.h
+        strings.cpp
+
+        qt_objects_operations.h
+        qt_objects_operations.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

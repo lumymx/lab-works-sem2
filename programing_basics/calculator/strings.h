@@ -1,9 +1,9 @@
-#ifndef UTILITY_H
-#define UTILITY_H
+#ifndef STRINGS_H
+#define STRINGS_H
 
 #include <string>
 
 std::string doubleToString(double number, int limit);
 std::string labelToFunction(std::string label);
 
-#endif // UTILITY_H
+#endif // STRINGS_H
