@@ -224,8 +224,8 @@
    <widget class="QPushButton" name="BtnClear">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>150</y>
+      <x>250</x>
+      <y>100</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -531,8 +531,8 @@
    <widget class="QPushButton" name="BtnSin">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>100</y>
+      <x>200</x>
+      <y>150</y>
       <width>50</width>
       <height>50</height>
      </rect>

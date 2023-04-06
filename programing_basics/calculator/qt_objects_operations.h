@@ -3,7 +3,6 @@
 
 #include <QPushButton>
 
-void blockButton(QPushButton* Button);
-void unblockButton(QPushButton* Button);
+void setButtonState(QPushButton* Button, std::string flag);
 
 #endif // QT_OBJECT_OPERATIONS_H

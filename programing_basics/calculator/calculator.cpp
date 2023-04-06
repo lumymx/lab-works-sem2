@@ -52,13 +52,11 @@ Calculator::Calculator(QWidget *parent)
     ui->EditInput->setFocusPolicy(Qt::TabFocus);
 }
 
-Calculator::~Calculator()
-{
+Calculator::~Calculator() {
     delete ui;
 }
 
-void Calculator::numberClicked()
-{
+void Calculator::numberClicked() {
     if (ui->BrowserResult->toPlainText() != "Error" && !ui->EditInput->text().contains("e")) {
         QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
         QString digitValue = clickedButton->text();
@@ -66,55 +64,65 @@ void Calculator::numberClicked()
         if (!(inputValue == "0" && digitValue == "0.0")) {
             if (inputValue == "0")
                 inputValue = "";
-            if(ui->EditInput->text().length() <= maxLength)
+            if  (ui->EditInput->text().length() <= maxLength)
                 ui->EditInput->setText(inputValue + digitValue);
         }
-        unblockOperations();
+        if (operationsBlocked)
+            unblockOperations();
     }
 }
 
-void Calculator::operatorClicked()
-{
-    if (operation != NONE) {
-        operand2 = ui->EditInput->text().toDouble();
-        commitOperation();
+void Calculator::operatorClicked() {
+    if (ui->BrowserResult->toPlainText() != "Error") {
+        if (operation != NONE)
+            commitOperation();
+        if (ui->BrowserResult->toPlainText() == "0")
+            operand1 = ui->EditInput->text().toDouble();
+        else
+            operand1 = ui->BrowserResult->toPlainText().toDouble();
+        QPushButton* button = (QPushButton*)sender();
+        QString buttonText = button->text();
+        if (buttonText == "+")
+            operation = ADD;
+        else if (buttonText == "-")
+            operation = SUBTRACT;
+        else if (buttonText == "×")
+            operation = MULTIPLY;
+        else if (buttonText == "÷")
+            operation = DIVIDE;
+        else if (buttonText == "%")
+            operation = PERCENT;
+        else if (buttonText == "^")
+            operation = POWER;
+        ui->EditInput->setText("");
+        blockOperations();
     }
-    if(ui->BrowserResult->toPlainText() == "0")
-        operand1 = ui->EditInput->text().toDouble();
-    else
-        operand1 = ui->BrowserResult->toPlainText().toDouble();
-    QPushButton* button = (QPushButton*)sender();
-    QString buttonText = button->text();
-    if (buttonText == "+")
-        operation = ADD;
-    else if (buttonText == "-")
-        operation = SUBTRACT;
-    else if (buttonText == "×")
-        operation = MULTIPLY;
-    else if (buttonText == "÷")
-        operation = DIVIDE;
-    else if (buttonText == "%")
-        operation = PERCENT;
-    else if (buttonText == "^")
-        operation = POWER;
-    ui->EditInput->setText("");
-    blockOperations();
 }
 
 
-void Calculator::functionClicked()
-{
-    QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
-    std::string functionName = labelToFunction(clickedButton->text().toStdString());
-    double inputValue = ui->EditInput->text().toDouble();
-    QString result = QString::fromStdString(calculateOperationResult(inputValue, 0, functionName, maxLength));
-    ui->BrowserResult->setText(result);
-    ui->EditInput->setText(ui->BrowserResult->toPlainText());
-    operand1 = 0;
+void Calculator::functionClicked() {
+    if (ui->BrowserResult->toPlainText() != "Error") {
+        double inputValue;
+        if (operation != NONE) {
+            commitOperation();
+            operation = NONE;
+            inputValue = ui->BrowserResult->toPlainText().toDouble();
+        } else
+            inputValue = ui->EditInput->text().toDouble();
+        QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
+        std::string functionName = labelToFunction(clickedButton->text().toStdString());
+        QString result = QString::fromStdString(calculateOperationResult(inputValue, 0, functionName, maxLength));
+        if (result == "Error") {
+            ui->BtnClear->setStyleSheet("background-color: red;");
+            ui->EditInput->setText("");
+        } else
+            ui->EditInput->setText(result);
+        ui->BrowserResult->setText(result);
+        operand1 = 0;
+    }
 }
 
-void Calculator::memoryClicked()
-{
+void Calculator::memoryClicked() {
     QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
     QString buttonText = clickedButton->text();
     if (buttonText == "MR")
@@ -127,20 +135,21 @@ void Calculator::memoryClicked()
         memory -= ui->EditInput->text().toDouble();
 }
 
-void Calculator::clearClicked()
-{
+void Calculator::clearClicked() {
     ui->EditInput->setText("0");
     ui->BrowserResult->setText("0");
     ui->BtnClear->setStyleSheet("../../stylesheets/Combinear.qss");
+    if (operationsBlocked)
+        unblockOperations();
 }
 
-void Calculator::deleteClicked()
-{
+void Calculator::deleteClicked() {
     QString text = ui->EditInput->text();
-    if (!text.isEmpty() && text != "0" && !text.contains("e"))
-    {
+    if (!text.isEmpty() && text != "0" && !text.contains("e")) {
         text.remove(text.length() - 1, 1);
         ui->EditInput->setText(text);
+        if(text == "")
+            blockOperations();
     }
 }
 
@@ -151,33 +160,28 @@ void Calculator::negateClicked()
     ui->EditInput->setText(QString::number(inputValue * -1));
 }
 
-void Calculator::pointClicked()
-{
+void Calculator::pointClicked() {
     QString text = ui->EditInput->text();
-    if (!text.contains('.') && text != "-")
-    {
+    if (!text.contains('.') && text != "-") {
         text.append('.');
         ui->EditInput->setText(text);
     }
 }
 
 
-void Calculator::equalsClicked()
-{
-    operand2 = ui->EditInput->text().toDouble();
+void Calculator::equalsClicked() {
     commitOperation();
     if (ui->BrowserResult->toPlainText() != "Error")
         ui->EditInput->setText(ui->BrowserResult->toPlainText());
     else
         ui->EditInput->setText("");
     operation = NONE;
-    operand2 = 0;
 }
 
-void Calculator::commitOperation()
-{
+void Calculator::commitOperation() {
     if (ui->BrowserResult->toPlainText() != "Error") {
         std::string result = ui->EditInput->text().toStdString();
+        int operand2 = ui->EditInput->text().toDouble();
         switch (operation) {
         case ADD:
             result = calculateOperationResult(operand1, operand2, "add", maxLength);
@@ -207,34 +211,36 @@ void Calculator::commitOperation()
     }
 }
 
-void Calculator::blockOperations()
-{
-    blockButton(ui->BtnPlus);
-    blockButton(ui->BtnMinus);
-    blockButton(ui->BtnMult);
-    blockButton(ui->BtnDiv);
-    blockButton(ui->BtnPercent);
-    blockButton(ui->BtnPower);
+void Calculator::blockOperations() {
+    setButtonState(ui->BtnPlus, "b");
+    setButtonState(ui->BtnMinus, "b");
+    setButtonState(ui->BtnMult, "b");
+    setButtonState(ui->BtnDiv, "b");
+    setButtonState(ui->BtnPercent, "b");
+    setButtonState(ui->BtnPower, "b");
 
-    blockButton(ui->BtnSin);
-    blockButton(ui->BtnCos);
-    blockButton(ui->BtnTan);
-    blockButton(ui->BtnCot);
-    blockButton(ui->BtnRoot);
+    setButtonState(ui->BtnSin, "b");
+    setButtonState(ui->BtnCos, "b");
+    setButtonState(ui->BtnTan, "b");
+    setButtonState(ui->BtnCot, "b");
+    setButtonState(ui->BtnRoot, "b");
+
+    operationsBlocked = true;
 }
 
-void Calculator::unblockOperations()
-{
-    unblockButton(ui->BtnPlus);
-    unblockButton(ui->BtnMinus);
-    unblockButton(ui->BtnMult);
-    unblockButton(ui->BtnDiv);
-    unblockButton(ui->BtnPercent);
-    unblockButton(ui->BtnPower);
+void Calculator::unblockOperations() {
+    setButtonState(ui->BtnPlus, "u");
+    setButtonState(ui->BtnMinus, "u");
+    setButtonState(ui->BtnMult, "u");
+    setButtonState(ui->BtnDiv, "u");
+    setButtonState(ui->BtnPercent, "u");
+    setButtonState(ui->BtnPower, "u");
 
-    unblockButton(ui->BtnSin);
-    unblockButton(ui->BtnCos);
-    unblockButton(ui->BtnTan);
-    unblockButton(ui->BtnCot);
-    unblockButton(ui->BtnRoot);
+    setButtonState(ui->BtnSin, "u");
+    setButtonState(ui->BtnCos, "u");
+    setButtonState(ui->BtnTan, "u");
+    setButtonState(ui->BtnCot, "u");
+    setButtonState(ui->BtnRoot, "u");
+
+    operationsBlocked = false;
 }

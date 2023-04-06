@@ -3,8 +3,17 @@
 #include <cmath>
 #include <string>
 
-std::string calculateOperationResult(double operand1, double operand2, std::string operation, int limit)
-{
+bool checkErrors(double operand1, double operand2, std::string operation);
+
+double add(double operand1, double operand2);
+double subtract(double operand1, double operand2);
+double multiply(double operand1, double operand2);
+double divide(double operand1, double operand2);
+double percent(double operand1, double operand2);
+double power(double operand1, double operand2);
+double function(double operand, std::string functionName);
+
+std::string calculateOperationResult(double operand1, double operand2, std::string operation, int limit) {
     std::string result;
     if(checkErrors(operand1, operand2, operation))
         result = "Error";
@@ -29,41 +38,34 @@ std::string calculateOperationResult(double operand1, double operand2, std::stri
     return result;
 }
 
-bool checkErrors(double operand1, double operand2, std::string operation)
-{
+bool checkErrors(double operand1, double operand2, std::string operation) {
     bool result = false;
     if ((operation == "sqrt" && operand1 < 0) || (operation == "div" && operand2 == 0))
         result = true;
     return result;
 }
 
-double add(double operand1, double operand2)
-{
+double add(double operand1, double operand2) {
     return operand1 + operand2;
 }
 
-double subtract(double operand1, double operand2)
-{
+double subtract(double operand1, double operand2) {
     return operand1 - operand2;
 }
 
-double multiply(double operand1, double operand2)
-{
+double multiply(double operand1, double operand2) {
     return operand1 * operand2;
 }
 
-double divide(double operand1, double operand2)
-{
+double divide(double operand1, double operand2) {
     return operand1 / operand2;
 }
 
-double percent(double operand1, double operand2)
-{
+double percent(double operand1, double operand2) {
     return operand1 / 100 * operand2;
 }
 
-double function(double operand, std::string functionName)
-{
+double function(double operand, std::string functionName) {
     double result = operand;
     if (functionName == "sin")
         result = sin(operand);

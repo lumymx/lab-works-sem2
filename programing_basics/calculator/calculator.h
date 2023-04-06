@@ -32,9 +32,9 @@ private:
     void unblockOperations();
     Ui::Calculator *ui;
     double operand1 = 0;
-    double operand2 = 0;
     double memory = 0;
     int maxLength = 21;
+    bool operationsBlocked = false;
     enum Operation {
         NONE,
         ADD,
