@@ -1,9 +1,9 @@
 #include "./strings.h"
 
 #include <iostream>
-#include <string>
 #include <sstream>
 #include <cmath>
+#include <unordered_map>
 
 std::string doubleToString(double number, int limit) {
     std::stringstream ss;
@@ -30,16 +30,17 @@ std::string doubleToString(double number, int limit) {
 }
 
 std::string labelToFunction(std::string label) {
-    std::string function = "";
-    if (label == "SIN")
-        function = "sin";
-    else if (label == "COS")
-        function = "cos";
-    else if (label == "TAN")
-        function = "tan";
-    else if (label == "COT")
-        function = "cot";
-    else if (label == "√")
-        function = "sqrt";
-    return function;
+    std::unordered_map<std::string, std::string> function_map {
+        {"SIN", "sin"},
+        {"COS", "cos"},
+        {"TAN", "tan"},
+        {"COT", "cot"},
+        {"√", "sqrt"}
+    };
+
+    auto iter = function_map.find(label);
+    if (iter == function_map.end())
+        return "unknown_function";
+
+    return iter->second;
 }
