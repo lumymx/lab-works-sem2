@@ -20,5 +20,5 @@ void blockButton(QPushButton* Button) {
 void unblockButton(QPushButton* Button) {
     Button->setStyleSheet("../../stylesheets/Combinear.qss");
     Button->setEnabled(true);
-    Button->setFocusPolicy(Qt::ClickFocus);
+    Button->setFocusPolicy(Qt::StrongFocus);
 }

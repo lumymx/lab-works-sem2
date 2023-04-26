@@ -30,10 +30,11 @@ private:
     void commitOperation();
     void blockOperations();
     void unblockOperations();
+    void unblockEquals();
     Ui::Calculator *ui;
     double operand1 = 0;
     double memory = 0;
-    int maxLength = 21;
+    int maxLength = 20;
     bool operationsBlocked = false;
     enum Operation {
         NONE,

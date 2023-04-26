@@ -69,6 +69,7 @@ void Calculator::numberClicked() {
         }
         if (operationsBlocked)
             unblockOperations();
+        unblockEquals();
     }
 }
 
@@ -80,7 +81,7 @@ void Calculator::operatorClicked() {
             operand1 = ui->EditInput->text().toDouble();
         else
             operand1 = ui->BrowserResult->toPlainText().toDouble();
-        QPushButton* button = (QPushButton*)sender();
+        QPushButton* button = qobject_cast<QPushButton*>(sender());
         QString buttonText = button->text();
         if (buttonText == "+")
             operation = ADD;
@@ -130,9 +131,9 @@ void Calculator::memoryClicked() {
     else if (buttonText == "MC")
         memory = 0;
     else if (buttonText == "M+")
-        memory += ui->EditInput->text().toDouble();
+        memory = stringToDouble(calculateOperationResult(memory, ui->EditInput->text().toDouble(), "add", maxLength));
     else if (buttonText == "M-")
-        memory -= ui->EditInput->text().toDouble();
+        memory = stringToDouble(calculateOperationResult(memory, ui->EditInput->text().toDouble(), "sub", maxLength));
 }
 
 void Calculator::clearClicked() {
@@ -148,8 +149,10 @@ void Calculator::deleteClicked() {
     if (!text.isEmpty() && text != "0" && !text.contains("e")) {
         text.remove(text.length() - 1, 1);
         ui->EditInput->setText(text);
-        if(text == "")
+        if(text == "") {
             blockOperations();
+            setButtonState(ui->BtnEquals, "b");
+        }
     }
 }
 
@@ -166,6 +169,7 @@ void Calculator::pointClicked() {
         text.append('.');
         ui->EditInput->setText(text);
     }
+    setButtonState(ui->BtnPoint, "b");
 }
 
 
@@ -176,6 +180,7 @@ void Calculator::equalsClicked() {
     else
         ui->EditInput->setText("");
     operation = NONE;
+    setButtonState(ui->BtnEquals, "b");
 }
 
 void Calculator::commitOperation() {
@@ -243,4 +248,9 @@ void Calculator::unblockOperations() {
     setButtonState(ui->BtnRoot, "u");
 
     operationsBlocked = false;
+}
+
+void Calculator::unblockEquals() {
+    setButtonState(ui->BtnEquals, "u");
+    ui->BtnEquals->setStyleSheet("background-color: orange;");
 }

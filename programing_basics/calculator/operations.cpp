@@ -40,7 +40,11 @@ std::string calculateOperationResult(double operand1, double operand2, std::stri
 
 bool checkErrors(double operand1, double operand2, std::string operation) {
     bool result = false;
-    if ((operation == "sqrt" && operand1 < 0) || (operation == "div" && operand2 == 0))
+    if ((operation == "sqrt" && operand1 < 0) ||
+        (operation == "div" && operand2 == 0) ||
+        ((operation == "pov" && operand1 < 0 && fmod(operand2, 2) == 0)) ||
+        (operation == "tan" && cos(operand1) == 0)||
+        (operation == "cot" && sin(operand1) == 0))
         result = true;
     return result;
 }

@@ -29,6 +29,13 @@ std::string doubleToString(double number, int limit) {
     return str;
 }
 
+double stringToDouble(std::string str) {
+    double num;
+    std::istringstream iss(str);
+    iss >> num;
+    return num;
+}
+
 std::string labelToFunction(std::string label) {
     std::unordered_map<std::string, std::string> function_map {
         {"SIN", "sin"},
