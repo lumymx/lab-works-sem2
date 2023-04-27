@@ -18,6 +18,7 @@ public:
 private slots:
     void onBtnBrowseClicked();
     void onBtnLoadClicked();
+    void onBtnMetricsClicked();
 
 private:
     Ui::MainWindow *ui;

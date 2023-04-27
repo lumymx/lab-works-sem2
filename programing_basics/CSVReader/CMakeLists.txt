@@ -18,11 +18,14 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
 
-        reader.cpp
-        reader.h
+        metrics.cpp
+        metrics.h
 
         model.cpp
         model.h
+
+        reader.cpp
+        reader.h
 
         strings.cpp
         strings.h

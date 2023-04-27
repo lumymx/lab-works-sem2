@@ -7,7 +7,7 @@
 #include <string>
 #include "reader.h"
 
-QStandardItemModel* generateModel(QMainWindow* w, Data data, std::string region, int column);
+QStandardItemModel* generateModel(QMainWindow* w, Data data, std::string region);
 
 
 #endif // MODEL_H
