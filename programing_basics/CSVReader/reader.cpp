@@ -27,7 +27,7 @@ int readDataFromFile(const char* filename, Data* data, char** errorMessage) {
         char* birthRateStr = strtok(NULL, ",");
         char* deathRateStr = strtok(NULL, ",");
         char* generalDemographicWeightStr = strtok(NULL, ",");
-        char* urbanizationStr = strtok(NULL, ",");
+        char* urbanizationStr = strtok(NULL, "\n");
 
         if (!yearStr || !region || !naturalPopulationGrowthStr || !birthRateStr ||
             !deathRateStr || !generalDemographicWeightStr || !urbanizationStr) {

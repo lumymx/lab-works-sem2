@@ -20,6 +20,12 @@ set(PROJECT_SOURCES
 
         reader.cpp
         reader.h
+
+        model.cpp
+        model.h
+
+        strings.cpp
+        strings.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
