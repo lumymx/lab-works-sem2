@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStandardItemModel>
+
 #include "model.h"
 #include "metrics.h"
 #include "reader.h"
@@ -43,11 +45,10 @@ void MainWindow::onBtnLoadClicked() {
         if (column < -1 || column > 6) {
             QMessageBox::critical(this, "Error", "Wrong column value");
         } else {
-            QByteArray fileData = filePath.toLocal8Bit();
-            const char* filePathStr = fileData.data();
+            std::string filePathStr = filePath.toStdString();
 
             Data data;
-            char* errorMessage = NULL;
+            std::string errorMessage;
             int result = readDataFromFile(filePathStr, &data, &errorMessage);
 
             if (result == 0) {
@@ -55,10 +56,9 @@ void MainWindow::onBtnLoadClicked() {
                 ui->tableView->setModel(model);
             }
             else
-                QMessageBox::critical(this, "Error", errorMessage);
+                QMessageBox::critical(this, "Error", errorMessage.c_str());
 
             free(data.items);
-            free(errorMessage);
         }
     }
 }
@@ -79,7 +79,7 @@ void MainWindow::onBtnMetricsClicked() {
     }
     double* values = (double*) malloc(rowCnt * sizeof(double));
     if (values == nullptr) {
-        QMessageBox::critical(this, "Ошибка", "Не удалось выделить память");
+        QMessageBox::critical(this, "Error", "Memory allocation error");
         return;
     }
     for (int i = 0; i < rowCnt; i++) {
@@ -87,6 +87,7 @@ void MainWindow::onBtnMetricsClicked() {
         QVariant value = ui->tableView->model()->data(index);
         values[i] = value.toDouble();
     }
+
     Metrics stats = computeMetrics(values, rowCnt);
 
     ui->TextBrowserMax->clear();

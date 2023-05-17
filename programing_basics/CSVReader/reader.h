@@ -2,10 +2,11 @@
 #define READER_H
 
 #include <cstddef>
+#include <string>
 
 typedef struct {
     int year;
-    char region[50];
+    std::string region;
     double natural_population_growth;
     double birth_rate;
     double death_rate;
@@ -18,6 +19,6 @@ typedef struct {
     size_t count;
 } Data;
 
-int readDataFromFile(const char* filename, Data* data, char** errorMessage);
+int readDataFromFile(const std::string& filename, Data* data, std::string* errorMessage);
 
 #endif // READER_H

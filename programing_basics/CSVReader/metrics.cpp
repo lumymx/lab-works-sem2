@@ -5,8 +5,10 @@ static int compare_double(const void* a, const void* b);
 static int compare_double(const void* a, const void* b) {
     double arg1 = *static_cast<const double*>(a);
     double arg2 = *static_cast<const double*>(b);
-    if (arg1 < arg2) return -1;
-    if (arg1 > arg2) return 1;
+    if (arg1 < arg2)
+        return -1;
+    if (arg1 > arg2)
+        return 1;
     return 0;
 }
 
