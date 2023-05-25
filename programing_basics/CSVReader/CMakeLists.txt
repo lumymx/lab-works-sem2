@@ -14,21 +14,23 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
+        
         mainwindow.cpp
         mainwindow.h
+        
         mainwindow.ui
-
-        metrics.cpp
-        metrics.h
-
-        model.cpp
-        model.h
-
-        reader.cpp
-        reader.h
-
-        strings.cpp
-        strings.h
+        
+        logic.h
+        logic.cpp
+        
+        sort.cpp
+        sort.h
+        
+        table.cpp
+        table.h
+        
+        error.cpp
+        error.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

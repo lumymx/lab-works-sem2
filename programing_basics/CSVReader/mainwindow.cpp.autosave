@@ -52,18 +52,18 @@ void MainWindow::loadData() {
     ui->lineEditCol->setEnabled(true);
     funcArg data = createFuncArg();
     int i = 0;
-    returnValue tmp;
+    returnValue tableData;
     do {
-        tmp = entryPoint(data);
-        if (tmp.size == 0) {
+        tableData = entryPoint(data);
+        if (tableData.size == 0) {
             clearTable();
             error(region);
             break;
         }
-        data.placed = tmp.placed;
-        rowsCount += tmp.size;
-        initTable(tmp);
-        fillTable(i, tmp);
+        data.placed = tableData.placed;
+        rowsCount += tableData.size;
+        initTable(tableData);
+        fillTable(i, tableData);
         i++;
     } while (tmp.size == 100);
 }
@@ -85,11 +85,11 @@ void MainWindow::handleError() {
 
 void MainWindow::onBtnMetricsClicked() {
     if (validMetricsInput()) {
-        funcArg tmp = getMetrics();
-        if (tmp.metricsCount != 0) {
-            tmp.funcType = FuncType::CalculateMetrics;
-            returnValue a = entryPoint(tmp);
-            setLabelText(a);
+        funcArg metrics = getMetrics();
+        if (metrics.metricsCount != 0) {
+            metrics.funcType = FuncType::CalculateMetrics;
+            returnValue result = entryPoint(metrics);
+            setLabelText(result);
         }
         else
             error(columnValue);
