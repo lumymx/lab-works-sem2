@@ -11,6 +11,7 @@
 #include "./ui_mainwindow.h"
 #include "table.h"
 #include "error.h"
+#include "graphic.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

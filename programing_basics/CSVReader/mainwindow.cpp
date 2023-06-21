@@ -31,13 +31,9 @@ void MainWindow::resetData() {
 
 void MainWindow::onBtnLoadClicked() {
     if (!filename.isEmpty() && validYearsInput())
-    {
         loadData();
-    }
     else
-    {
         handleError();
-    }
 }
 
 bool MainWindow::validYearsInput() {
@@ -52,20 +48,20 @@ void MainWindow::loadData() {
     ui->lineEditCol->setEnabled(true);
     funcArg data = createFuncArg();
     int i = 0;
-    returnValue tmp;
+    returnValue tableData;
     do {
-        tmp = entryPoint(data);
-        if (tmp.size == 0) {
+        tableData = entryPoint(data);
+        if (tableData.size == 0) {
             clearTable();
             error(region);
             break;
         }
-        data.placed = tmp.placed;
-        rowsCount += tmp.size;
-        initTable(tmp);
-        fillTable(i, tmp);
+        data.placed = tableData.placed;
+        rowsCount += tableData.size;
+        initTable(tableData);
+        fillTable(i, tableData);
         i++;
-    } while (tmp.size == 100);
+    } while (tableData.size == 100);
 }
 
 funcArg MainWindow::createFuncArg() {
@@ -83,7 +79,8 @@ void MainWindow::handleError() {
         error(year);
 }
 
-void MainWindow::onBtnMetricsClicked() {
+void MainWindow::onBtnMetricsClicked()
+{
     if (validMetricsInput()) {
         funcArg tmp = getMetrics();
         if (tmp.metricsCount != 0) {
@@ -91,11 +88,52 @@ void MainWindow::onBtnMetricsClicked() {
             returnValue a = entryPoint(tmp);
             setLabelText(a);
         }
-        else
+
+        int col = ui->lineEditCol->text().toInt() - 1;
+        if (col >= 0 && col < ui->tableWidget->columnCount()) {
+
+            QString metricName = ui->tableWidget->horizontalHeaderItem(col)->text();
+
+            int size = ui->tableWidget->rowCount();
+
+            double *values = (double*)malloc(sizeof(double) * size);
+            double *years = (double*)malloc(sizeof(double) * size);
+            if (values == nullptr || years == nullptr) {
+                qFatal("Failed to allocate memory");
+                return;
+            }
+
+            for (int row = 0; row < size; row++) {
+                QTableWidgetItem *item = ui->tableWidget->item(row, col);
+                if (item != nullptr) {
+                    bool ok;
+                    double value = item->text().toDouble(&ok);
+                    if (ok) {
+                        values[row] = value;
+                    }
+                }
+                QTableWidgetItem *yearItem = ui->tableWidget->item(row, 0);
+                if (yearItem != nullptr) {
+                    bool ok;
+                    double yearValue = yearItem->text().toDouble(&ok);
+                    if (ok) {
+                        years[row] = yearValue;
+                    }
+                }
+            }
+
+            GraphItem *graphItem = new GraphItem(years, values, size, "Year", metricName);
+            QGraphicsScene *scene = new QGraphicsScene(this);
+            scene->addItem(graphItem);
+            ui->graphicsView->setScene(scene);
+        }
+        else {
             error(columnValue);
+        }
     }
-    else
+    else {
         error(columnData);
+    }
 }
 
 bool MainWindow::validMetricsInput() {

@@ -31,6 +31,9 @@ set(PROJECT_SOURCES
         
         error.cpp
         error.h
+
+        graphic.cpp
+        graphic.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

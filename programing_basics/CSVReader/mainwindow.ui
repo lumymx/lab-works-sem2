@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1400</width>
     <height>600</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>1400</width>
     <height>600</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
+    <width>1400</width>
     <height>600</height>
    </size>
   </property>
@@ -109,7 +109,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Calculate metrics</string>
+     <string>Calculate and draw</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditCol">
@@ -348,13 +348,23 @@
      <string/>
     </property>
    </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>0</y>
+      <width>600</width>
+      <height>600</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1400</width>
      <height>23</height>
     </rect>
    </property>

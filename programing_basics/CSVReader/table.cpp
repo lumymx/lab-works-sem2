@@ -24,26 +24,26 @@ void MainWindow::initTable(data_region a) {
     delete qstr;
 }
 
-void MainWindow::fillTable(int iterator, returnValue tmp) {
-    std::stringstream stream(tmp.year);
+void MainWindow::fillTable(int iterator, returnValue data) {
+    std::stringstream stream(data.year);
     std::string line;
-    std::string tmp1;
+    std::string stream2;
     getline(stream, line, '\n');
     for (int j= iterator * 100; j < (rowsCount); j++) {
         getline(stream, line, '\n');
-        std::stringstream stream2(line);
+        std::stringstream stream3(line);
         for (int i = 0; i < colsCount; i++) {
-            getline(stream2, tmp1, ',');
-            QTableWidgetItem* item = new QTableWidgetItem(QString::fromStdString(tmp1));
+            getline(stream3, stream2, ',');
+            QTableWidgetItem* item = new QTableWidgetItem(QString::fromStdString(stream2));
             ui->tableWidget->setItem(j, i, item);
         }
     }
 }
 
-void MainWindow::setLabelText(returnValue tmp) {
-    ui->LabelResultMin->setText(QString::number(tmp.metrics[1], 'g', 15));
-    ui->labelResultMed->setText(QString::number(tmp.metrics[0], 'g', 15));
-    ui->labelResultMax->setText(QString::number(tmp.metrics[2], 'g', 15));
+void MainWindow::setLabelText(returnValue data) {
+    ui->LabelResultMin->setText(QString::number(data.metrics[1], 'g', 15));
+    ui->labelResultMed->setText(QString::number(data.metrics[0], 'g', 15));
+    ui->labelResultMax->setText(QString::number(data.metrics[2], 'g', 15));
 }
 
 void MainWindow::clearTable() {

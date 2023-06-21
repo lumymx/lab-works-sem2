@@ -46,7 +46,6 @@ returnValue calculateMetrics(funcArg data)
     returnValue result;
     if(data.metricsCount % 2 == 1)
         result.metrics[0] = data.metrics[(int)(data.metricsCount / 2)];
-
     else
         result.metrics[0] = (data.metrics[(int)(data.metricsCount / 2) - 1] + data.metrics[(data.metricsCount / 2)]) / 2;
 
