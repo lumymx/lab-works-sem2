@@ -30,7 +30,7 @@ void MainWindow::resetData() {
 }
 
 void MainWindow::onBtnLoadClicked() {
-    if (!filename.isEmpty() && validYearsInput())
+    if (validYearsInput())
         loadData();
     else
         handleError();

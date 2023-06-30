@@ -2,6 +2,7 @@
 #define GRAPHIC_H
 
 #include <QGraphicsItem>
+#include "sort.h"
 
 class GraphItem : public QGraphicsItem
 {
